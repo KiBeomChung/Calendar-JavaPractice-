@@ -28,42 +28,25 @@ public class Calendar {
 		return maxDate;
 	} // 조건문을 이용한 마지막 날 구하기!
 
-	public void printMonthDate() {
-		System.out.println("일 월 화 수 목 금 토");
-		System.out.println("================");
-		System.out.println("1 2 3 4 5 6 7 ");
-		System.out.println("8 9 10 11 12 13 14");
-		System.out.println("15 16 17 18 19 20 21");
-		System.out.println("22 23 24 25 26 27 28");
-	}
+	public void printMonthDate(int year, int month) {
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		System.out.printf("     <<%4d년%3d월>>\n", year, month);			
+		System.out.println(" SU MO TU WE TH FR SA");
+		System.out.println("=====================");
 
-		String PROMPT = "cal> ";
-		
-		Scanner scanner = new Scanner(System.in);
-
-		Calendar cal = new Calendar();
-		int month = 0;
-
-		while(true) {
-
-			System.out.println("달을 입력세요: ");
-			System.out.print(PROMPT);
-			month = scanner.nextInt();
-			if(month == -1)	break;
-			if(month > 12)	continue;
-			
-			System.out.printf("%d의 마지막 일은 %d 입니다.\n", month, cal.maxDateOfMonth(month));
+		int maxDay = maxDateOfMonthByArray(month);
+				
+		for(int i = 1; i <= maxDay; i++)
+		{
+			if((i % 7) == 0) {
+				System.out.println();
+			}
+			System.out.printf("%3d", i);
 		}
 		
-		System.out.println("==================================================================");
-
-		//cal.printMonthDate();
-
-		scanner.close();
+		System.out.println();
 
 	}
 
-}
+	}
+
