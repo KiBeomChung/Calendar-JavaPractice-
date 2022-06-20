@@ -40,17 +40,21 @@ public class Calendar {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
+		String PROMPT = "cal> ";
+		
 		Scanner scanner = new Scanner(System.in);
-		System.out.println("반복할 횟수를 입력하세요 : ");
 
-		int repetition = scanner.nextInt();
 		Calendar cal = new Calendar();
+		int month = 0;
 
-		for (int i = 0; i < repetition; i++) {
+		while(true) {
 
 			System.out.println("달을 입력세요: ");
-			int month = scanner.nextInt();
-
+			System.out.print(PROMPT);
+			month = scanner.nextInt();
+			if(month == -1)	break;
+			if(month > 12)	continue;
+			
 			System.out.printf("%d의 마지막 일은 %d 입니다.\n", month, cal.maxDateOfMonth(month));
 		}
 		
