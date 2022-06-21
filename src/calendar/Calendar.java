@@ -1,7 +1,5 @@
 package calendar;
 
-import java.util.Scanner;
-
 public class Calendar {
 
 	private static final int[] MAX_DAYS = { 31, 28, 31, 30, 31, 30, 31, 30, 31, 30, 31, 30 };
@@ -41,126 +39,165 @@ public class Calendar {
 		return maxDate;
 	} // 조건문을 이용한 마지막 날 구하기!
 
-	public void printMonthDate(int year, int month, String weekDay) {
+	public void printMonthDate(int year, int month, int weekDay) {
 
 		int maxDay = maxDateOfMonthByArray(year, month);
-		String firstDate = weekDay;
+		int div = 7 - weekDay;
+		int count = div;
 
-		int rep = 0;
-		int div = 0;
+		if (div < 7) {
+
+		} else if (div == 7) {
+			div = 0;
+		}
 
 		System.out.printf("     <<%4d년%3d월>>\n", year, month);
 		System.out.println(" SU MO TU WE TH FR SA");
 		System.out.println("=====================");
 
-		switch (firstDate) {
-
-		case "SU":
-			for (int i = 1; i <= maxDay; i++) {
-				if ((i % 7) == 0) {
-					System.out.println();
-				}
-				System.out.printf("%3d", i);
-			}
-			System.out.println();
-			break;
-
-		case "MO":
-			rep = 1;
-			for (int j = 0; j < rep; j++) {
-				System.out.printf("   ");
-				div++;
-			}
-			for (int i = 1; i <= maxDay; i++) {
-				if ((div % 7) == 0) {
-					System.out.println();
-				}
-				div++;
-				System.out.printf("%3d", i);
-			}
-			System.out.println();
-			break;
-
-		case "TU":
-			rep = 2;
-			for (int j = 0; j < rep; j++) {
-				System.out.printf("   ");
-				div++;
-			}
-			for (int i = 1; i <= maxDay; i++) {
-				if ((div % 7) == 0) {
-					System.out.println();
-				}
-				div++;
-				System.out.printf("%3d", i);
-			}
-			System.out.println();
-			break;
-
-		case "WE":
-			rep = 3;
-			for (int j = 0; j < rep; j++) {
-				System.out.printf("   ");
-				div++;
-			}
-			for (int i = 1; i <= maxDay; i++) {
-				if ((div % 7) == 0) {
-					System.out.println();
-				}
-				div++;
-				System.out.printf("%3d", i);
-			}
-			System.out.println();
-			break;
-
-		case "TH":
-			rep = 4;
-			for (int j = 0; j < rep; j++) {
-				System.out.printf("   ");
-				div++;
-			}
-			for (int i = 1; i <= maxDay; i++) {
-				if ((div % 7) == 0) {
-					System.out.println();
-				}
-				div++;
-				System.out.printf("%3d", i);
-			}
-			System.out.println();
-			break;
-
-		case "FR":
-			rep = 5;
-			for (int j = 0; j < rep; j++) {
-				System.out.printf("   ");
-				div++;
-			}
-			for (int i = 1; i <= maxDay; i++) {
-				if ((div % 7) == 0) {
-					System.out.println();
-				}
-				div++;
-				System.out.printf("%3d", i);
-			}
-			System.out.println();
-			break;
-
-		case "SA":
-			rep = 6;
-			for (int j = 0; j < rep; j++) {
-				System.out.printf("   ");
-				div++;
-			}
-			for (int i = 1; i <= maxDay; i++) {
-				if ((div % 7) == 0) {
-					System.out.println();
-				}
-				div++;
-				System.out.printf("%3d", i);
-			}
-			System.out.println();
-			break;
+		for (int i = 0; i < weekDay; i++) // 공백이 나와야되는 만큼 공백 출력하는 코드
+		{
+			System.out.printf("   ");
 		}
 
+		for (int i = 1; i <= count; i++) // 공백이후에 나오는 첫번째줄 날짜
+		{
+			System.out.printf("%3d", i);
+		}
+
+		System.out.println();
+
+		for (int i = count + 1; i < maxDay; i++) {
+			System.out.printf("%3d", i);
+
+			if (i % 7 == div) {
+				System.out.println();
+			}
+		}
+
+		System.out.println();
+		System.out.println();
 	}
+//	public void printMonthDate(int year, int month, String weekDay) {
+//
+//		int maxDay = maxDateOfMonthByArray(year, month);
+//		String firstDate = weekDay;
+//
+//		int rep = 0;
+//		int div = 0;
+//
+//		System.out.printf("     <<%4d년%3d월>>\n", year, month);
+//		System.out.println(" SU MO TU WE TH FR SA");
+//		System.out.println("=====================");
+//
+//		switch (firstDate) {
+//
+//		case "SU":
+//			for (int i = 1; i <= maxDay; i++) {
+//				if ((i % 7) == 0) {
+//					System.out.println();
+//				}
+//				System.out.printf("%3d", i);
+//			}
+//			System.out.println();
+//			break;
+//
+//		case "MO":
+//			rep = 1;
+//			for (int j = 0; j < rep; j++) {
+//				System.out.printf("   ");
+//				div++;
+//			}
+//			for (int i = 1; i <= maxDay; i++) {
+//				if ((div % 7) == 0) {
+//					System.out.println();
+//				}
+//				div++;
+//				System.out.printf("%3d", i);
+//			}
+//			System.out.println();
+//			break;
+//
+//		case "TU":
+//			rep = 2;
+//			for (int j = 0; j < rep; j++) {
+//				System.out.printf("   ");
+//				div++;
+//			}
+//			for (int i = 1; i <= maxDay; i++) {
+//				if ((div % 7) == 0) {
+//					System.out.println();
+//				}
+//				div++;
+//				System.out.printf("%3d", i);
+//			}
+//			System.out.println();
+//			break;
+//
+//		case "WE":
+//			rep = 3;
+//			for (int j = 0; j < rep; j++) {
+//				System.out.printf("   ");
+//				div++;
+//			}
+//			for (int i = 1; i <= maxDay; i++) {
+//				if ((div % 7) == 0) {
+//					System.out.println();
+//				}
+//				div++;
+//				System.out.printf("%3d", i);
+//			}
+//			System.out.println();
+//			break;
+//
+//		case "TH":
+//			rep = 4;
+//			for (int j = 0; j < rep; j++) {
+//				System.out.printf("   ");
+//				div++;
+//			}
+//			for (int i = 1; i <= maxDay; i++) {
+//				if ((div % 7) == 0) {
+//					System.out.println();
+//				}
+//				div++;
+//				System.out.printf("%3d", i);
+//			}
+//			System.out.println();
+//			break;
+//
+//		case "FR":
+//			rep = 5;
+//			for (int j = 0; j < rep; j++) {
+//				System.out.printf("   ");
+//				div++;
+//			}
+//			for (int i = 1; i <= maxDay; i++) {
+//				if ((div % 7) == 0) {
+//					System.out.println();
+//				}
+//				div++;
+//				System.out.printf("%3d", i);
+//			}
+//			System.out.println();
+//			break;
+//
+//		case "SA":
+//			rep = 6;
+//			for (int j = 0; j < rep; j++) {
+//				System.out.printf("   ");
+//				div++;
+//			}
+//			for (int i = 1; i <= maxDay; i++) {
+//				if ((div % 7) == 0) {
+//					System.out.println();
+//				}
+//				div++;
+//				System.out.printf("%3d", i);
+//			}
+//			System.out.println();
+//			break;
+//		}
+//
+//	}
 }
