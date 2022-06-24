@@ -33,7 +33,6 @@ public class Prompt {
 		Calendar cal = new Calendar();
 		int month = 0;
 		int year = 0;
-		int weekDay = 0;
 
 		while (true) {
 
@@ -49,20 +48,17 @@ public class Prompt {
 			System.out.print("MONTH> ");
 			month = scanner.nextInt();
 
-			System.out.println("첫째날 요일을 입력하세요: (SU, MO, WE, TH, FR, SA) ");
-			System.out.print("WEEKDAY> ");
-			String sWeekDay = scanner.next();
-
-			weekDay = parseDay(sWeekDay);
-
 			if (month > 12 || month < 1) {
 				System.out.println("잘못된 입력입니다!!");
 			}
 
-			cal.printMonthDate(year, month, weekDay);
+			cal.printMonthDate(year, month);
 			// System.out.printf("%d의 마지막 일은 %d 입니다.\n", month, cal.maxDateOfMonth(month));
 		}
+		
 		System.out.println("==================================================================");
+	
+		scanner.close();
 	}
 
 	public static void main(String[] args) {
