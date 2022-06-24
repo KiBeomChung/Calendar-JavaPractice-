@@ -1,9 +1,20 @@
 package calendar;
 
+import java.util.HashMap;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class Calendar {
 
 	private static final int[] MAX_DAYS = { 0, 31, 28, 31, 30, 31, 30, 31, 30, 31, 30, 31, 30 };
-	private static final int[] LEAP_MAX_DAYS = {0, 31, 29, 31, 30, 31, 30, 31, 30, 31, 30, 31, 30 };
+	private static final int[] LEAP_MAX_DAYS = { 0, 31, 29, 31, 30, 31, 30, 31, 30, 31, 30, 31, 30 };
+
+	public HashMap<Date, String> CalMap;
+
+	public Calendar() {
+		CalMap = new HashMap<Date, String>();
+	}
 
 	public boolean isLeapYear(int year) {
 		if (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0))
@@ -40,7 +51,7 @@ public class Calendar {
 	} // 조건문을 이용한 마지막 날 구하기!
 
 	public void printMonthDate(int year, int month) {
-			
+
 		int weekDay = getWeekDay(year, month, 1);
 		int maxDay = maxDateOfMonthByArray(year, month);
 		int div = 7 - weekDay;
@@ -79,35 +90,62 @@ public class Calendar {
 		System.out.println();
 		System.out.println();
 	}
-	
-	public int getWeekDay(int year, int month, int day)
-	{
+
+	public int getWeekDay(int year, int month, int day) {
 		int sYear = 1970;
 		int sMonth = 1;
 		int sDay = 1;
 		final int STANDARD_WEEKDAY = 4;
-		// 기준 연도의 정보 
+		// 기준 연도의 정보
 		int count = 0; // 기준 날짜에서 내가 알고싶은 달이 얼마나 차이가 나는지 알아내는 변
-		
-		for(int i = sYear; i < year; i++) // 연도 차이가 얼마나 나는지 
+
+		for (int i = sYear; i < year; i++) // 연도 차이가 얼마나 나는지
 		{
-			if(isLeapYear(i))	count = count + 366;
-			
-			else	count = count + 365;
-	
+			if (isLeapYear(i))
+				count = count + 366;
+
+			else
+				count = count + 365;
+
 		}
-		
-		for(int i = sMonth; i < month; i++) //몇달이나 차이가 나는
+
+		for (int i = sMonth; i < month; i++) // 몇달이나 차이가 나는
 		{
 			count = count + maxDateOfMonthByArray(year, i);
 		}
-		
+
 		count = count + day - sDay;
-		
+
 		int weekDay = (STANDARD_WEEKDAY + count) % 7;
 		return weekDay;
 	}
+
+	public void registerCalendar(String strDate, String plan) throws ParseException {
+		
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-mm-dd");
+		Date date = formatter.parse(strDate);
+		
+		CalMap.put(date, plan);
+
+		if (CalMap.containsKey(date))
+			System.out.println("일정이 등록되었습니다.");
+		else
+			System.out.println("등록실패");
+
+	}
 	
+	public void searchCalendar(String strDate) throws ParseException
+	{
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-mm-dd");
+		Date date = formatter.parse(strDate);
+		
+		if(CalMap.containsKey(date)) {
+			String plan = CalMap.get(date);
+			System.out.println("검색결과 찾음!");
+			System.out.println(plan);
+		}
+	}
+
 //	public static void main(String[] args) {
 //		Calendar cal = new Calendar();
 //		
