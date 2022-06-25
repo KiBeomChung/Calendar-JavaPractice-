@@ -1,6 +1,12 @@
 package calendar;
 
 import java.util.HashMap;
+import java.util.Scanner;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.Date;
 
@@ -13,9 +19,37 @@ public class Calendar {
 
 	public Calendar() {
 		CalMap = new HashMap<Date, PlanItem>();
+
+		File file = new File("/Users/chung-kibeom/file.txt");
+
+		if (!file.exists())
+			return;
+		
+		try {
+			Scanner s = new Scanner(file);
+		
+			while(s.hasNext()) {
+				String str = s.nextLine();
+				String[] words = str.split(",");
+				String date = words[0];
+				String detail = words[1];
+				PlanItem p = new PlanItem(date, detail);
+				
+				CalMap.put(p.getDate(), p);
+				
+				System.out.println(p.getDate());
+			}
+			
+			s.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+
 	}
 
-	public boolean isLeapYear(int year) { //윤년 확인 메소
+	public boolean isLeapYear(int year) { // 윤년 확인 메소드
 		if (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0))
 			return true;
 
@@ -96,6 +130,7 @@ public class Calendar {
 		int sDay = 1;
 		final int STANDARD_WEEKDAY = 4;
 		// 기준 연도의 정보
+
 		int count = 0; // 기준 날짜에서 내가 알고싶은 달이 얼마나 차이가 나는지 알아내는 변
 
 		for (int i = sYear; i < year; i++) // 연도 차이가 얼마나 나는지
@@ -120,16 +155,41 @@ public class Calendar {
 	}
 
 	public void registerCalendar(String strDate, String plan) {
-		
+
 		PlanItem pi = new PlanItem(strDate, plan);
 		Date date = pi.getDate();
-		
+
 		CalMap.put(date, pi);
 
 		if (CalMap.containsKey(date))
 			System.out.println("일정이 등록되었습니다.");
 		else
 			System.out.println("등록실패");
+
+		File file = new File("/Users/chung-kibeom/file.txt");
+
+		if (!file.exists()) {
+			System.out.println("file created!");
+			try {
+				file.createNewFile();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+		FileWriter fw;
+		try {
+			fw = new FileWriter(file, true);
+			BufferedWriter writer = new BufferedWriter(fw);
+			writer.write(pi.SaveToString());
+
+			writer.close();
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 
@@ -143,137 +203,4 @@ public class Calendar {
 			System.out.println(planItem.detail);
 		}
 	}
-
-//	public static void main(String[] args) {
-//		Calendar cal = new Calendar();
-//		
-//		System.out.println(cal.getWeekDay(1970, 1, 1) == 3);
-//		System.out.println(cal.getWeekDay(1971, 1, 1) == 4);
-//		System.out.println(cal.getWeekDay(1972, 1, 1) == 5);
-//		System.out.println(cal.getWeekDay(1973, 1, 1) == 0);
-//		System.out.println(cal.getWeekDay(1974, 1, 1) == 1);
-//	}
-//	
-//	public void printMonthDate(int year, int month, String weekDay) {
-//
-//		int maxDay = maxDateOfMonthByArray(year, month);
-//		String firstDate = weekDay;
-//
-//		int rep = 0;
-//		int div = 0;
-//
-//		System.out.printf("     <<%4d년%3d월>>\n", year, month);
-//		System.out.println(" SU MO TU WE TH FR SA");
-//		System.out.println("=====================");
-//
-//		switch (firstDate) {
-//
-//		case "SU":
-//			for (int i = 1; i <= maxDay; i++) {
-//				if ((i % 7) == 0) {
-//					System.out.println();
-//				}
-//				System.out.printf("%3d", i);
-//			}
-//			System.out.println();
-//			break;
-//
-//		case "MO":
-//			rep = 1;
-//			for (int j = 0; j < rep; j++) {
-//				System.out.printf("   ");
-//				div++;
-//			}
-//			for (int i = 1; i <= maxDay; i++) {
-//				if ((div % 7) == 0) {
-//					System.out.println();
-//				}
-//				div++;
-//				System.out.printf("%3d", i);
-//			}
-//			System.out.println();
-//			break;
-//
-//		case "TU":
-//			rep = 2;
-//			for (int j = 0; j < rep; j++) {
-//				System.out.printf("   ");
-//				div++;
-//			}
-//			for (int i = 1; i <= maxDay; i++) {
-//				if ((div % 7) == 0) {
-//					System.out.println();
-//				}
-//				div++;
-//				System.out.printf("%3d", i);
-//			}
-//			System.out.println();
-//			break;
-//
-//		case "WE":
-//			rep = 3;
-//			for (int j = 0; j < rep; j++) {
-//				System.out.printf("   ");
-//				div++;
-//			}
-//			for (int i = 1; i <= maxDay; i++) {
-//				if ((div % 7) == 0) {
-//					System.out.println();
-//				}
-//				div++;
-//				System.out.printf("%3d", i);
-//			}
-//			System.out.println();
-//			break;
-//
-//		case "TH":
-//			rep = 4;
-//			for (int j = 0; j < rep; j++) {
-//				System.out.printf("   ");
-//				div++;
-//			}
-//			for (int i = 1; i <= maxDay; i++) {
-//				if ((div % 7) == 0) {
-//					System.out.println();
-//				}
-//				div++;
-//				System.out.printf("%3d", i);
-//			}
-//			System.out.println();
-//			break;
-//
-//		case "FR":
-//			rep = 5;
-//			for (int j = 0; j < rep; j++) {
-//				System.out.printf("   ");
-//				div++;
-//			}
-//			for (int i = 1; i <= maxDay; i++) {
-//				if ((div % 7) == 0) {
-//					System.out.println();
-//				}
-//				div++;
-//				System.out.printf("%3d", i);
-//			}
-//			System.out.println();
-//			break;
-//
-//		case "SA":
-//			rep = 6;
-//			for (int j = 0; j < rep; j++) {
-//				System.out.printf("   ");
-//				div++;
-//			}
-//			for (int i = 1; i <= maxDay; i++) {
-//				if ((div % 7) == 0) {
-//					System.out.println();
-//				}
-//				div++;
-//				System.out.printf("%3d", i);
-//			}
-//			System.out.println();
-//			break;
-//		}
-//
-//	}
 }
