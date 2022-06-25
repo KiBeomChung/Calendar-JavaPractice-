@@ -2,7 +2,6 @@ package calendar;
 
 import java.util.HashMap;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Calendar {
@@ -10,13 +9,13 @@ public class Calendar {
 	private static final int[] MAX_DAYS = { 0, 31, 28, 31, 30, 31, 30, 31, 30, 31, 30, 31, 30 };
 	private static final int[] LEAP_MAX_DAYS = { 0, 31, 29, 31, 30, 31, 30, 31, 30, 31, 30, 31, 30 };
 
-	public HashMap<Date, String> CalMap;
+	public HashMap<Date, PlanItem> CalMap;
 
 	public Calendar() {
-		CalMap = new HashMap<Date, String>();
+		CalMap = new HashMap<Date, PlanItem>();
 	}
 
-	public boolean isLeapYear(int year) {
+	public boolean isLeapYear(int year) { //윤년 확인 메소
 		if (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0))
 			return true;
 
@@ -120,12 +119,12 @@ public class Calendar {
 		return weekDay;
 	}
 
-	public void registerCalendar(String strDate, String plan) throws ParseException {
+	public void registerCalendar(String strDate, String plan) {
 		
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-mm-dd");
-		Date date = formatter.parse(strDate);
+		PlanItem pi = new PlanItem(strDate, plan);
+		Date date = pi.getDate();
 		
-		CalMap.put(date, plan);
+		CalMap.put(date, pi);
 
 		if (CalMap.containsKey(date))
 			System.out.println("일정이 등록되었습니다.");
@@ -133,16 +132,15 @@ public class Calendar {
 			System.out.println("등록실패");
 
 	}
-	
-	public void searchCalendar(String strDate) throws ParseException
-	{
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-mm-dd");
-		Date date = formatter.parse(strDate);
-		
-		if(CalMap.containsKey(date)) {
-			String plan = CalMap.get(date);
+
+	public void searchCalendar(String strDate) throws ParseException {
+
+		Date date = PlanItem.StringToDate(strDate);
+
+		if (CalMap.containsKey(date)) {
+			PlanItem planItem = CalMap.get(date);
 			System.out.println("검색결과 찾음!");
-			System.out.println(plan);
+			System.out.println(planItem.detail);
 		}
 	}
 
